@@ -1,6 +1,12 @@
 <?php
 /**
- * @package     Cronfig Mautic Bundle
+ * @package     HttpCron Mautic Bundle
+ * @author      Dmitry Danilson
+ * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
+/**
+ * Based on & inspired by Cronfig Mautic Bundle.
+ * @package     HttpCron Mautic Bundle
  * @copyright   2016 Cronfig.io. All rights reserved
  * @author      Jan Linhart
  * @link        http://cronfig.io
@@ -8,22 +14,22 @@
  */
 
 return array(
-    'name'        => 'Cronfig',
+    'name'        => 'HttpCron',
     'description' => 'Takes care of the cron jobs - makes your Mautic alive.',
     'version'     => '1.0',
-    'author'      => 'Cronfig.io',
+    'author'      => 'Dmitry Danilson, Jan Linhart',
 
     'routes'      => array(
         'main' => array(
-            'cronfig'         => array(
-                'path'       => '/cronfig',
-                'controller' => 'CronfigBundle:Cronfig:index'
+            'httpcron'         => array(
+                'path'       => '/httpcron',
+                'controller' => 'HttpCronBundle:HttpCron:index'
             )
         ),
         'public' => array(
-            'cronfig_public' => array(
-                'path' => '/cronfig/{command}',
-                'controller' => 'CronfigBundle:Public:trigger',
+            'httpcron_public' => array(
+                'path' => '/httpcron/{command}',
+                'controller' => 'HttpCronBundle:Public:trigger',
                 'defaults' => array(
                     'command' => ''
                 )
@@ -34,13 +40,23 @@ return array(
     'menu'     => array(
         'admin' => array(
             'items'    => array(
-                'cronfig.title' => array(
-                    'id'        => 'cronfig',
-                    'route'     => 'cronfig',
+                'httpcron.title' => array(
+                    'id'        => 'httpcron',
+                    'route'     => 'httpcron',
                     'iconClass' => 'fa-clock-o',
-                    // 'access'    => 'plugin:cronfig:cronfig:view',
+                    // 'access'    => 'plugin:httpcron:httpcron:view',
                 )
             )
         )
-    )
+    ),
+
+    'services' => array(
+        'forms' => array(
+            'mautic.form.type.httpcron.httpcron' => array(
+                'class' => 'MauticPlugin\HttpCronBundle\Form\Type\HttpCronType',
+                'arguments' => 'mautic.factory',
+                'alias' => 'httpcron'
+            ),
+        ),
+    ),
 );

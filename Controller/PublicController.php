@@ -1,13 +1,19 @@
 <?php
 /**
- * @package     Cronfig Mautic Bundle
+ * @package     HttpCron Mautic Bundle
+ * @author      Dmitry Danilson
+ * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
+/**
+ * Based on & inspired by Cronfig Mautic Bundle.
+ * @package     HttpCron Mautic Bundle
  * @copyright   2016 Cronfig.io. All rights reserved
  * @author      Jan Linhart
  * @link        http://cronfig.io
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace MauticPlugin\CronfigBundle\Controller;
+namespace MauticPlugin\HttpCronBundle\Controller;
 
 use Mautic\CoreBundle\Controller\CommonController;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -30,7 +36,7 @@ class PublicController extends CommonController
         $response  = new Response();
         $response->headers->set('Content-Type', 'text/plain');
         $secretKey = $this->request->query->get('secret_key');
-        $config    = $this->factory->getParameter('cronfig');
+        $config    = $this->factory->getParameter('httpcron');
 
         if (isset($config['secret_key']) && $config['secret_key'] !== $secretKey) {
             $response->setStatusCode(Codes::HTTP_FORBIDDEN);

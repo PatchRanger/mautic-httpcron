@@ -1,13 +1,19 @@
 <?php
 /**
- * @package     Cronfig Mautic Bundle
+ * @package     HttpCron Mautic Bundle
+ * @author      Dmitry Danilson
+ * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
+/**
+ * Based on & inspired by Cronfig Mautic Bundle.
+ * @package     HttpCron Mautic Bundle
  * @copyright   2016 Cronfig.io. All rights reserved
  * @author      Jan Linhart
  * @link        http://cronfig.io
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace MauticPlugin\CronfigBundle\Controller;
+namespace MauticPlugin\HttpCronBundle\Controller;
 
 use Mautic\CoreBundle\Controller\AjaxController as CommonAjaxController;
 use Mautic\CoreBundle\Helper\InputHelper;
@@ -17,7 +23,7 @@ use Mautic\CoreBundle\Helper\EncryptionHelper;
 /**
  * Class AjaxController
  *
- * @package MauticPlugin\CronfigBundle\Controller
+ * @package MauticPlugin\HttpCronBundle\Controller
  */
 class AjaxController extends CommonAjaxController
 {
@@ -36,19 +42,19 @@ class AjaxController extends CommonAjaxController
 
         if ($configurator->isFileWritable()) {
             try {
-                $cronfigConfig = array('api_key' => $apiKey);
+                $httpcronConfig = array('api_key' => $apiKey);
 
                 // Ensure the config has a secret key
                 $params = $configurator->getParameters();
 
-                if (!isset($params['cronfig']) || empty($params['cronfig']['secret_key'])) {
-                    $cronfigConfig['secret_key'] = EncryptionHelper::generateKey();
-                    $dataArray['secret_key'] = $cronfigConfig['secret_key'];
+                if (!isset($params['httpcron']) || empty($params['httpcron']['secret_key'])) {
+                    $httpcronConfig['secret_key'] = EncryptionHelper::generateKey();
+                    $dataArray['secret_key'] = $httpcronConfig['secret_key'];
                 }
 
                 // Save the API key only if it doesn't exist or has changed
-                if (!(isset($params['cronfig']['api_key']) && $params['cronfig']['api_key'] == $apiKey)) {
-                    $configurator->mergeParameters(array('cronfig' => $cronfigConfig));
+                if (!(isset($params['httpcron']['api_key']) && $params['httpcron']['api_key'] == $apiKey)) {
+                    $configurator->mergeParameters(array('httpcron' => $httpcronConfig));
                     $configurator->write();
 
                     $dataArray['success']  = 1;

@@ -1,20 +1,26 @@
 <?php
 /**
- * @package     Cronfig Mautic Bundle
+ * @package     HttpCron Mautic Bundle
+ * @author      Dmitry Danilson
+ * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
+/**
+ * Based on & inspired by Cronfig Mautic Bundle.
+ * @package     HttpCron Mautic Bundle
  * @copyright   2016 Cronfig.io. All rights reserved
  * @author      Jan Linhart
  * @link        http://cronfig.io
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace MauticPlugin\CronfigBundle\Model;
+namespace MauticPlugin\HttpCronBundle\Model;
 
 use Mautic\CoreBundle\Model\CommonModel;
 
 /**
- * Class CronfigModel
+ * Class HttpCronModel
  */
-class CronfigModel extends CommonModel
+class HttpCronModel extends CommonModel
 {
 
     /**
@@ -42,7 +48,7 @@ class CronfigModel extends CommonModel
     public function getCommandsUrls($commands, $baseUrl)
     {
         $commandsWithUrls = array();
-        $config = $this->factory->getParameter('cronfig');
+        $config = $this->factory->getParameter('httpcron');
         $secretKey = '';
 
         if (isset($config['secret_key'])) {
@@ -51,7 +57,7 @@ class CronfigModel extends CommonModel
 
         foreach ($commands as $command => $desc) {
             $commandsWithUrls[] = array(
-                'url' => $baseUrl . 'cronfig/' . urlencode($command) . $secretKey,
+                'url' => $baseUrl . 'httpcron/' . urlencode($command) . $secretKey,
                 'title' => $desc['title'],
                 'description' => $desc['description']
             );    
